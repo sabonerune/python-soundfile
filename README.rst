@@ -242,22 +242,22 @@ In the following example OGG is converted to WAV entirely in memory (without wri
 
 Controlling bitrate mode and compression level
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-For some audio formats, you can control the bitrate and compression level. 
+For some audio formats, you can control the bitrate and compression level.
 
-`compression_level` is a float between 0 and 1, with 1 being the highest compression, 
+`compression_level` is a float between 0 and 1, with 1 being the highest compression,
 and `bitrate_mode` is 'VARIABLE', 'CONSTANT', or 'AVERAGE'.
 
 .. code:: python
 
     import soundfile as sf
-    
+
     # for example, this uncompressed 5 minute wav file with 32 kHz sample rate is 18 Mb
-    data, samplerate = sf.read('5min_32kHz.wav') 
-    
+    data, samplerate = sf.read('5min_32kHz.wav')
+
     # maximum mp3 compression results in 1.1 Mb file, with either CONSTANT or VARIABLE bit rate
-    sf.write('max_compression_vbr.mp3', data, samplerate, bitrate_mode='VARIABLE', compression_level=.99) 
+    sf.write('max_compression_vbr.mp3', data, samplerate, bitrate_mode='VARIABLE', compression_level=.99)
     sf.write('max_compression_cbr.mp3', data, samplerate, bitrate_mode='CONSTANT', compression_level=.99)
-    
+
     # minimum mp3 compression results in 3.5 Mb file
     sf.write('min_compression_vbr.mp3', data, samplerate, bitrate_mode='VARIABLE', compression_level=0)
 
@@ -427,3 +427,13 @@ News
     Thank you, Brian McFee and Guy Illes
 
     - Fixed regression in blocks
+
+2026-06-06 V0.14.0 Bastian Bechtold
+    Thank you GesonAnko, Trevor Gamblin, Andreas Karatzas, Harish RS, Hunter Hogan
+
+    - Added type annotations
+    - Added Licensing note to wheel
+    - Fixed race condition when opening files concurrently
+    - Fixed regressions in test suite
+    - Removed support for Python <= 3.9
+    - Added ARM64 support for Windows

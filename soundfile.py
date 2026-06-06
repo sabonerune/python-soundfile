@@ -8,7 +8,7 @@ Alternatively, sound files can be opened as `SoundFile` objects.
 For further information, see https://python-soundfile.readthedocs.io/.
 
 """
-__version__ = "0.13.1"
+__version__ = "0.14.0"
 
 import os as _os
 import sys as _sys
@@ -164,18 +164,17 @@ try:  # packaged lib (in _soundfile_data which should be on python path)
         from platform import machine as _machine
         _packaged_libname = 'libsndfile_' + _machine() + '.dylib'
     elif _sys.platform == 'win32':
-        from platform import architecture as _architecture
-        from platform import machine as _machine
+        import sysconfig as _sysconfig
 
-        _win_machine = _machine().lower()
-        if _win_machine in ('arm64', 'aarch64'):
+        _win_machine = _sysconfig.get_platform()
+        if _win_machine == 'win-arm64':
             _packaged_libname = 'libsndfile_arm64.dll'
-        elif _architecture()[0] == '64bit':
+        elif _win_machine == 'win-amd64':
             _packaged_libname = 'libsndfile_x64.dll'
-        elif _architecture()[0] == '32bit':
+        elif _win_machine == 'win32':
             _packaged_libname = 'libsndfile_x86.dll'
         else:
-            raise OSError(f'no packaged library for Windows {_architecture()} {_machine()}')
+            raise OSError(f'no packaged library for Windows {_win_machine}')
     elif _sys.platform == 'linux':
         from platform import machine as _machine
         if _machine() in ["aarch64", "aarch64_be", "armv8b", "armv8l"]:
